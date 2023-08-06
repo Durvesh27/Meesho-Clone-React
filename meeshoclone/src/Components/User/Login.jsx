@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import './Form.css'
+import { AuthContext } from "../../Context";
 const Login = () => {
+const{login}=useContext(AuthContext)
   const [currentUserData, setCurrentUserData] = useState({
     email: "",
     password: "",
@@ -14,7 +16,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (currentUserData.email && currentUserData.password) {
+    if (currentUserData.email && currentUserData.password){
       const getData = JSON.parse(localStorage.getItem("Users"));
       let flag = false;
       for (let i = 0; i < getData.length; i++) {
@@ -23,6 +25,7 @@ const Login = () => {
           currentUserData.password === getData[i].password
         ) {
           flag = true;
+          login(getData[i])
           break;
         }
       }
@@ -30,7 +33,7 @@ const Login = () => {
         setCurrentUserData({ email: "", password: "" });
         return alert("Invalid credentials");
       } else {
-        localStorage.setItem("Current-User", JSON.stringify(currentUserData));
+        // localStorage.setItem("Current-User", JSON.stringify(currentUserData));
         toast.success("Logged in successfully");
         router("/");
         setCurrentUserData({ email: "", password: "" });

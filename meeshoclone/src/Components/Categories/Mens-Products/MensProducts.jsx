@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import MensData from "./MensData"
+import { useNavigate } from 'react-router-dom'
+const MensProducts = ({proCount,setProCount}) => {
+  const router=useNavigate()
+  const [products,setProducts]=useState([])
 
-const MensProducts = () => {
+// localStorage.setItem("Men",JSON.stringify(MensData))
+useEffect(()=>{
+  const productData=JSON.parse(localStorage.getItem("Men"))
+  setProducts(productData)
+  },[proCount])
+
   return (
 <div className="body">
   <div className="section-3">
@@ -119,24 +129,26 @@ const MensProducts = () => {
         </div>
       </div>
       <div className="section-3right">
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/272421991/ydi5k_400.webp" alt />
+        {
+          products?.map((pro)=>(  
+        <div className="main" key={pro?.id}>
+          <img src={pro?.imgsrc} alt="" onClick={()=>router(`/single-product/${pro?.id}`)}/>
           <div className="text">
-            <p className="color mb-15">Aishani Banaras Silk Saree</p>
+            <p className="color mb-15">{pro?.pri}</p>
             <p className="mb-12">
               <strong className="fs-22">
-                ₹299
+                ₹{pro?.price1}
               </strong>
               <span className="fs-12 color">onwards</span>
             </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
+            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: "12px", fontSize: "12px"}}>
+            {pro?.category}
             </span><br />
             <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
+              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: "16px", marginRight: "3px", fontWeight: 600}}>
+                5
                 <span>
-                  <i className="fa-solid fa-star" />
+                  <i className="fa-solid fa-star fa-xs" />
                 </span>
               </span>
               <span className="fs-12 color">
@@ -145,270 +157,8 @@ const MensProducts = () => {
             </div>
           </div>
         </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/152064623/b3c6y_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Georgette Lace Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/249237219/v0hhy_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Ikhat Georgette Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/280962050/qn5lq_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Charvi Banarasi Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/250103917/xr4kc_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">ETP Silk Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/106849689/qn2m2_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Ethia Georgette Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/45438925/bcqmt_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Jivika Drishya Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/140598388/ailwc_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Jivika Georgette Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/280634107/mfdok_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Marble Silk Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/56207714/upnu2_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Chitrarekha Petite Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/200809120/yqwba_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Jivika Net Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="main">
-          <img src="https://images.meesho.com/images/products/42958844/zzzh2_400.webp" alt />
-          <div className="text">
-            <p className="color mb-15">Kashvi Chiffon Saree</p>
-            <p className="mb-12">
-              <strong className="fs-22">
-                ₹299
-              </strong>
-              <span className="fs-12 color">onwards</span>
-            </p>
-            <span style={{backgroundColor: 'rgb(234, 233, 233)', padding: '6px 10px', borderRadius: 12, fontSize: 12}}>
-              Delivery₹88
-            </span><br />
-            <div style={{marginTop: 20, marginBottom: 5}}>
-              <span style={{backgroundColor: 'rgb(35, 187, 117)', color: 'white', padding: '4px 8px', borderRadius: 16, marginRight: 3, fontWeight: 600}}>
-                3.8
-                <i className="fa-solid fa-star" />
-              </span>
-              <span className="fs-12 color">
-                61095 Reviews
-              </span>
-            </div>
-          </div>
-        </div>
+           ))
+          }
       </div>
     </div>
   </div>

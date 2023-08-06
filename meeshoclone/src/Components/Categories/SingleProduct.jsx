@@ -1,30 +1,79 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './SingleProduct.css'
+import { useParams } from 'react-router-dom'
+import { toast } from "react-hot-toast";
+import MensData from './Mens-Products/MensData'
+import WomensData from './Womens-Products/WomensData'
+import UpdateProduct from '../Seller/UpdateProduct';
+import { AuthContext } from '../../Context';
 const SingleProduct = () => {
+const {userId}=useParams()
+const[proData,setProData]=useState()
+const[click,setClick]=useState(false)
+const{state}=useContext(AuthContext)
+const products = JSON.parse(localStorage.getItem("Men"));
+useEffect(() => {
+  products.map((data) => {
+    if (data.id == userId) {
+      setProData(data);
+    }
+  });
+}, []);
+
+useEffect(() => {
+  WomensData.map((data) => {
+    if (data.id == userId) {
+      setProData(data);
+    }
+  });
+}, []);
+
+
+function addTocart() {
+  const currentUser = JSON.parse(localStorage.getItem("Current-User"));
+  const users = JSON.parse(localStorage.getItem("Users"));
+  users.forEach((item) => {
+    if (item.email === currentUser.email) {
+      item.cart.push(proData);
+      toast.success("Item Added to cart");
+    }
+  });
+  localStorage.setItem("Users", JSON.stringify(users));
+  
+}
+
   return (
 <div className="body">
   <div className="body-section">
     <div className="left-body-section">
       <div className="left-body1">
-        <img src="https://images.meesho.com/images/products/266108669/dnuva_64.webp" alt />
-        <img src="https://images.meesho.com/images/products/266108669/2pwqf_64.webp" alt /><br />
-        <img src="https://images.meesho.com/images/products/266108669/qeax8_64.webp" alt /><br />
-        <img src="https://images.meesho.com/images/products/266108669/hmpgk_64.webp" alt />
+        <img src={proData?.imgsrc} alt="" />
+        <img src={proData?.imgsrc} alt="" /><br />
+        <img src={proData?.imgsrc}alt=""/><br />
+        <img src={proData?.imgsrc} alt="" />
       </div>   
       <div className="left-body2">
         <div className="main-img">
-          <img src="https://images.meesho.com/images/products/266108669/dnuva_512.webp" alt />
+          <img src={proData?.imgsrc} alt=""/>
         </div>
+        {
+        state?.user?.role==="Buyer"?
+        
         <div className="left-buttons">
           <button className="purple-color">
             <i className="fa-solid fa-cart-shopping purple-color" />
-            <span>Add to Cart</span>
+            <span onClick={addTocart}>Add to Cart</span>
           </button>
           <button className="purple-color">
             <i className="fa-solid fa-angles-right purple-color" />
             <span>Buy now</span>
           </button>
-        </div>
+        </div>:
+                  <button className="purple-color update-button">
+                  <i class="fa-solid fa-pen" style={{marginRight:"5px"}}></i>
+                  <span onClick={()=>setClick(!click)}>Update Product</span>
+                </button>
+}
         <div className="similar">
           <h3>9 Similar Products</h3>
           <img src="https://images.meesho.com/images/products/266108669/dnuva_128.webp" alt />
@@ -33,19 +82,16 @@ const SingleProduct = () => {
           <img src="https://images.meesho.com/images/products/266108672/sraw0_128.webp" alt />
           <img src="https://images.meesho.com/images/products/266108673/osk1v_128.webp" alt />
           <img src="https://images.meesho.com/images/products/266108674/qhdwd_128.webp" alt />
-          {/* <img src="https://images.meesho.com/images/products/266108675/sqnof_128.webp" alt="">
-                  <img src="https://images.meesho.com/images/products/266108676/mq5yi_128.webp" alt="">
-                  <img src="https://images.meesho.com/images/products/266108677/ssikp_128.webp" alt=""> */}
         </div>
       </div> 
     </div>
     <div className="right-body-section">
       <div className="right-sec1">
-        <h3 style={{color: 'rgb(139, 139, 163)', marginTop: 20}}>DOLA SILK SAREE WITH FLORAL PENAL WORK</h3>
+        <h3 style={{color: 'rgb(139, 139, 163)', marginTop: 20}}>{proData?.sec}</h3>
         <h1 style={{fontWeight: 500, marginTop: 10, fontSize: 30}}>₹375</h1>
         <div style={{marginTop: 15, marginBottom: 15}}>
           <span className="star-box">
-            4.0
+          5.0
             <span>
               <i className="fa-solid fa-star fa-xs" style={{color: 'white'}} />
             </span>
@@ -62,7 +108,7 @@ const SingleProduct = () => {
       </div>
       <div className="right-sec3">
         <h3>Product Detalis</h3>
-        <p>Name : DOLA SILK SAREE WITH FLOWER PENAL WORK</p>
+        <p>Name : {proData?.sec}</p>
         <p>Saree Fabric : Art Silk</p>
         <p>Blouse : Running Blouse</p>
         <p>Blouse Fabric : Jacquard</p>
@@ -79,25 +125,25 @@ const SingleProduct = () => {
         <div className="sec4-flex">
           <div style={{display: 'flex', alignItems: 'center'}}>
             <img src="https://images.meesho.com/images/pow/shop_100.webp" alt />
-            <h4 style={{fontSize: 17, fontWeight: 550}}>PISIFERA</h4>
+            <h4 style={{fontSize: "17px", fontWeight: 550}}>PISIFERA</h4>
           </div>
           <button>View Shop</button>
         </div>
         <div className="sec4-container">
-          <div className="cont1">
+          <div className="cont1" style={{display:"block"}}>
             <span className="star-1">
-              4.0
+              {proData?.rating}
               <i className="fa-solid fa-star fa-xs" style={{color: 'rgb(85, 133, 248)'}} />
             </span>
-            <p style={{marginTop: 8, color: 'rgb(97, 97, 115)', fontSize: 15}}>6,161 Ratings</p>
+            <p style={{marginTop: "8px", color: 'rgb(97, 97, 115)', fontSize: "15px"}}>6,161 Ratings</p>
           </div>
           <div className="cont2">
             <p style={{fontWeight: 550}}>235</p>
-            <p style={{marginTop: 8, color: 'rgb(97, 97, 115)', fontSize: 15}}>Followers</p>
+            <p style={{marginTop: "8px", color: 'rgb(97, 97, 115)', fontSize: "15px"}}>Followers</p>
           </div>
           <div className="cont3">
             <p style={{fontWeight: 550}}>80</p>
-            <p style={{marginTop: 8, color: 'rgb(97, 97, 115)', fontSize: 15}}>Products</p>
+            <p style={{marginTop:"8px", color: 'rgb(97, 97, 115)', fontSize: "15px"}}>Products</p>
           </div>
         </div>
       </div>
@@ -107,11 +153,11 @@ const SingleProduct = () => {
           <div style={{width: '30%', padding: '41px 0'}}>
             <span style={{color: 'rgb(3, 141, 99)', fontWeight: 600}}>4.0</span>
             <i className="fa-solid fa-star fa-lg" style={{color: 'rgb(3, 141, 99)', position: 'relative', top: '-15px'}} />
-            <p style={{fontSize: 12, lineHeight: 15, color: 'rgb(139, 139, 163)', fontWeight: 550}}>1096 Ratings<br />
+            <p style={{fontSize: "12px", lineHeight: "15px", color: 'rgb(139, 139, 163)', fontWeight: 550}}>1096 Ratings<br />
               219 Reviews</p>
           </div>
           {/* linings */}
-          <div style={{width: '70%', lineHeight: 35, display: 'flex'}}>
+          <div style={{width: '70%', lineHeight: "35px", display: 'flex'}}>
             <div className="good">
               <p>Excellent</p>
               <p>Very good</p>
@@ -159,23 +205,23 @@ const SingleProduct = () => {
           </div>
           <div className="rev2">
             <div style={{display: 'flex', alignItems: 'center', marginBottom: 15}}>
-              <img style={{width: 24, height: 24, borderRadius: '50%', marginRight: 5}} src="https://images.meesho.com/images/reseller/profile_image/8d66966eee7219afcb9be21637826f28_3c02815644370_1661950032787_512.jpg" alt />
-              <span style={{fontSize: 15, fontWeight: 550, color: 'rgb(97, 97, 115)'}}>S B</span>
+              <img style={{width: "24px", height: "24px", borderRadius: '50%', marginRight: "5px"}} src="https://images.meesho.com/images/reseller/profile_image/8d66966eee7219afcb9be21637826f28_3c02815644370_1661950032787_512.jpg" alt />
+              <span style={{fontSize: "15px", fontWeight: 550, color: 'rgb(97, 97, 115)'}}>S B</span>
             </div>
             <p className="disp">
               <span style={{marginRight: 8, fontSize: 15}} className="span-butt">
                 5.0
                 <i className="fa-solid fa-star fa-xs" />
               </span>
-              <span style={{fontSize: 12, color: 'rgb(139, 139, 163)'}}>posted on 15 Apr 2023</span>
+              <span style={{fontSize: "12px", color: 'rgb(139, 139, 163)'}}>posted on 15 Apr 2023</span>
             </p>
-            <h4 style={{color: 'rgb(53, 53, 67)', fontWeight: 500, marginTop: 20, marginBottom: 5}}>Nyc products I'm so happy cloth is nyc</h4>
-            <img src="https://images.meesho.com/images/ratings_reviews/1903159164/1916695168/1903159164_1916695168_305827cd8cd5c_128.jpeg" alt style={{width: 72, height: 72, borderRadius: 8, marginTop: 10}} />
+            <h4 style={{color: 'rgb(53, 53, 67)', fontWeight: 500, marginTop: "20px", marginBottom: "5px"}}>Nyc products I'm so happy cloth is nyc</h4>
+            <img src="https://images.meesho.com/images/ratings_reviews/1903159164/1916695168/1903159164_1916695168_305827cd8cd5c_128.jpeg" alt style={{width: 72, height: "72px", borderRadius: "8px", marginTop: "10px"}} />
           </div>
           <div className="rev2">
-            <div style={{display: 'flex', alignItems: 'center', marginBottom: 15}}>
-              <img style={{width: 24, height: 24, borderRadius: '50%', marginRight: 5}} src="user.png" alt />
-              <span style={{fontSize: 15, fontWeight: 550, color: 'rgb(97, 97, 115)'}}>Ranjitha</span>
+            <div style={{display: 'flex', alignItems: 'center', marginBottom: "15px"}}>
+              <img style={{width: "24px", height: "24px", borderRadius: '50%', marginRight: "5px"}} src="user.png" alt />
+              <span style={{fontSize: "15px", fontWeight: 550, color: 'rgb(97, 97, 115)'}}>Ranjitha</span>
             </div>
             <p className="disp">
               <span style={{marginRight: 8, fontSize: 15}} className="span-butt">
@@ -452,6 +498,15 @@ const SingleProduct = () => {
       </div>
     </div>
   </div>
+  {click && (
+        <UpdateProduct
+          id={proData?.id}
+          setProData={setProData}
+          click={click}
+          setClick={setClick}
+        />
+      )}
+
 </div>
 
   )

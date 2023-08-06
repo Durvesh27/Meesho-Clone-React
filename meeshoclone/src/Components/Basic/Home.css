@@ -85,6 +85,10 @@ header{
 }
 .profile{
     font-size: 15px;
+    padding: 18px 0;
+}
+.fz-15{
+    font-size: 15px;
 }
 /* body */
 .body{
@@ -446,8 +450,33 @@ text-align: right;
 .fs-12{
     font-size: 12px;
 }
-
-
+.profile-box{
+position: absolute;
+top: 72px;
+right: 116px;
+width: 13%;
+border: 1px solid black;
+padding: 15px;
+background-color: white;
+border: 1px solid white;
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+border-radius: 5px;
+}
+.profile-box-title{
+font-size: 13px;
+margin: 10px 0;
+}
+.profile-box-btn{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #9F2089;
+    color: white;
+    border: 1px solid #9F2089;
+    border-radius: 2px;
+    margin-top: 10px;
+}
 
 
 
@@ -500,4 +529,16 @@ footer{
 .foot5 p{
     font-size: 13px;
     line-height: 20px;
+}
+
+/* profile */
+.profile-form{
+    width: 35%;
+    margin: auto;
+    padding: 15px;
+    background-color: white;
+    position: fixed;
+    top: 130px;
+    left: 510px;
+    z-index: 999;
 }

@@ -1,83 +1,97 @@
-import React from 'react'
+import React, { useContext, useEffect } from "react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 import './Cart.css'
 const Cart = () => {
+  const [cart, setCart] = useState();
+  const [final, setFinal] = useState(0);
+
+  const users = JSON.parse(localStorage.getItem("Users"));
+  const current = JSON.parse(localStorage.getItem("Current-User"));
+
+  useEffect(() => {
+    users.forEach((element) => {
+      if (element.email === current.email){
+        setCart(element.cart);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (cart?.length >= 0) {
+      let totalPrice = 0;
+      cart.forEach((item) => {
+        totalPrice += item?.price1;
+      });
+      setFinal(totalPrice);
+    }
+  }, [cart]);
+
+  function delItem(itemId) {
+    let updatedItems = cart.filter((ele) => {
+      return ele.id !== itemId;
+    });
+    users.forEach((data) => {
+      if (data.email === current.email) {
+        data.cart = updatedItems;
+      }
+    });
+    toast("Item deleted")
+    localStorage.setItem("Users",JSON.stringify(users))
+    setCart(updatedItems);
+  }
+
+  function clearAll() {
+    users.forEach((data) => {
+      if (data.email === current.email) {
+        data.cart = [];
+      }
+    });
+    toast.success("Proceed to Checkout")
+    localStorage.setItem("Users",JSON.stringify(users))
+    setCart([])
+  }
+ console.log(cart)
   return (
 <div className="cart-body">
   <div className="left-container">
-    <h3 style={{marginTop: 30, marginBottom: 15}}>Cart | 3Items</h3>
-    <div className="section">
+    <h3 style={{marginTop: 30, marginBottom: 15}}>Cart | {cart?.length}Items</h3>
+    <div>
+    {
+      cart?.map((item)=>(
+    <div className="section" key={item?.id}>
       <div className="section1">
         <div className="cont1">
-          <img src="https://images.meesho.com/images/products/249677977/sj2qk_512.jpg" alt />
+          <img src={item?.imgsrc} alt="" />
           <div className="info">
-            <h4 style={{marginBottom: 8, wordSpacing: 2}}>100% Bio Wash Cotton T-Shirt</h4>
-            <p style={{fontSize: 15, marginBottom: 8}}>Size:L&nbsp;&nbsp;&nbsp; Qty:1</p>
-            <p style={{fontSize: 15, marginBottom: 20}}>Rs.265</p>
+            <h4 style={{marginBottom: "8px", wordSpacing:"2px"}}>{item?.sec}</h4>
+            <p style={{fontSize: "15px", marginBottom:" 8px"}}>Size:L&nbsp;&nbsp;&nbsp; Qty:1</p>
+            <p style={{fontSize: "15px", marginBottom: "20px"}}>Rs.{item?.price1}</p>
             <p>
               <i className="fa-solid fa-xmark fa-sm" />
-              <span style={{fontSize: 15}}><b>REMOVE</b></span>
+              <span style={{fontSize: "14px",marginLeft:"5px"}}><b onClick={()=>delItem(item?.id)}>REMOVE</b></span>
             </p>
           </div>
         </div>
-        <h3 style={{fontSize: 14, color: 'rgb(159, 32, 137)'}}>EDIT</h3>
       </div>
       <div className="section2">
         <p>Sold by : Cottrees</p>
         <p>FREE DELIVERY</p>
       </div>
     </div>
-    <div className="section">
-      <div className="section1">
-        <div className="cont1">
-          <img src="https://images.meesho.com/images/products/222479409/oblcn_512.jpg" alt />
-          <div className="info">
-            <h4 style={{marginBottom: 8, wordSpacing: 2}}>Mens Formal Shirt</h4>
-            <p style={{fontSize: 15, marginBottom: 8}}>Size:L&nbsp;&nbsp;&nbsp; Qty:1</p>
-            <p style={{fontSize: 15, marginBottom: 20}}>Rs.999</p>
-            <p>
-              <i className="fa-solid fa-xmark fa-sm" />
-              <span style={{fontSize: 15}}><b>REMOVE</b></span>
-            </p>
-          </div>
-        </div>
-        <h3 style={{fontSize: 14, color: 'rgb(159, 32, 137)'}}>EDIT</h3>
-      </div>
-      <div className="section2">
-        <p>Sold by : VIVESCO</p>
-        <p>FREE DELIVERY</p>
-      </div>
-    </div>
-    <div className="section">
-      <div className="section1">
-        <div className="cont1">
-          <img src="https://images.meesho.com/images/products/249677977/sj2qk_512.jpg" alt />
-          <div className="info">
-            <h4 style={{marginBottom: 8, wordSpacing: 2}}>Casual Shirt</h4>
-            <p style={{fontSize: 15, marginBottom: 8}}>Size:L&nbsp;&nbsp;&nbsp; Qty:1</p>
-            <p style={{fontSize: 15, marginBottom: 20}}>Rs.749</p>
-            <p>
-              <i className="fa-solid fa-xmark fa-sm" />
-              <span style={{fontSize: 15}}><b>REMOVE</b></span>
-            </p>
-          </div>
-        </div>
-        <h3 style={{fontSize: 14, color: 'rgb(159, 32, 137)'}}>EDIT</h3>
-      </div>
-      <div className="section2">
-        <p>Sold by : TOP 10 Garment</p>
-        <p>FREE DELIVERY</p>
-      </div>
+          ))
+        }
     </div>
   </div>
   <div className="right-container">
     <h4 style={{marginBottom: 20}}>PRICE DETAILS</h4>
     <div className="price">
       <p>Total Product Price</p>
-      <p>Rs.1898</p>
+      <p>Rs.{final}</p>
     </div>
     <div className="price1">
       <p>Order Total</p>
-      <p>Rs.1898</p>
+      <p>Rs.{final}</p>
     </div>
     <div className="para">
       Clicking on 'Continue' will not deduct any Money
