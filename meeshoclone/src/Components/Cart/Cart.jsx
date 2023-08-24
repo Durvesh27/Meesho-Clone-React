@@ -51,7 +51,6 @@ const Cart = () => {
     localStorage.setItem("Users",JSON.stringify(users))
     setCart([])
   }
- console.log(cart)
   return (
 <div className="cart-body">
   <div className="left-container">

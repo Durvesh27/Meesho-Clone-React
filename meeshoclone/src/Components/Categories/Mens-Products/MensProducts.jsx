@@ -6,6 +6,7 @@ const MensProducts = ({proCount,setProCount}) => {
   const [products,setProducts]=useState([])
 
 // localStorage.setItem("Men",JSON.stringify(MensData))
+
 useEffect(()=>{
   const productData=JSON.parse(localStorage.getItem("Men"))
   setProducts(productData)
