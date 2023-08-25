@@ -74,7 +74,7 @@ function loginClick(){
                     {logged ? (
                       <>
                         <h4 style={{ fontWeight: 600 }}>
-                          Hello! {state?.user?.name} <span style={{color:"grey"}}>({state?.user?.role})</span>
+                          Hello! {state?.user?.name} 
                         </h4>
                         <p className="profile-box-title">
                           {state?.user?.email}
